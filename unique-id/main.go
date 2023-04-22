@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"time"
 
 	maelstrom "github.com/jepsen-io/maelstrom/demo/go"
 )
@@ -16,9 +18,10 @@ func main() {
 		if err := json.Unmarshal(msg.Body, &body); err != nil {
 			return err
 		}
-
+		uid := fmt.Sprintf("%s-%s-%d-%d", msg.Src, msg.Dest, body["msg_id"], time.Now().Unix())
 		// Update the message type to return back
-		body["type"] = "echo_ok"
+		body["type"] = "generate_ok"
+		body["id"] = uid
 		// Echo the original message back with the update message type.
 		return n.Reply(msg, body)
 	})

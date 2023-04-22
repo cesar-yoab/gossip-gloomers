@@ -1,4 +1,4 @@
-module maelstrom-echo
+module unique-id
 
 go 1.20
 
