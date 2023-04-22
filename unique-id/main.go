@@ -12,13 +12,13 @@ import (
 func main() {
 	n := maelstrom.NewNode()
 
-	n.Handle("echo", func(msg maelstrom.Message) error {
+	n.Handle("generate", func(msg maelstrom.Message) error {
 		// Unmarshall the message body as an loosely-typed map.
 		var body map[string]any
 		if err := json.Unmarshal(msg.Body, &body); err != nil {
 			return err
 		}
-		uid := fmt.Sprintf("%s-%s-%d-%d", msg.Src, msg.Dest, body["msg_id"], time.Now().Unix())
+		uid := fmt.Sprintf("%s-%s-%s-%d", msg.Src, msg.Dest, body["msg_id"], time.Now().Unix())
 		// Update the message type to return back
 		body["type"] = "generate_ok"
 		body["id"] = uid
